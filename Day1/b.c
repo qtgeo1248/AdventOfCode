@@ -5,7 +5,7 @@ size_t len_file(char *filename) {
     FILE *f = fopen(filename, "r");
     size_t i = 0;
     while (!feof(f)) {
-        int dummy = 0;
+        size_t dummy = 0;
         fscanf(f, "%zu", &dummy);
         i++;
     }
@@ -23,7 +23,7 @@ size_t *get_ints(char *filename, size_t len) {
 }
 
 int main() {
-    char *file = "Entries.txt";
+    char *file = "measurements.txt";
     size_t n = len_file(file);
     size_t *arr = get_ints(file, n);
     size_t *sliding_sums = calloc(n, sizeof(size_t));

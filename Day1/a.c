@@ -23,7 +23,7 @@ int *get_ints(char *filename, size_t len) {
 }
 
 int main() {
-    char *file = "Entries.txt";
+    char *file = "measurements.txt";
     int n = len_file(file);
     int *arr = get_ints(file, n);
 

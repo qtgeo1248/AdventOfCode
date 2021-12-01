@@ -5,31 +5,31 @@ size_t len_file(char *filename) {
     FILE *f = fopen(filename, "r");
     size_t i = 0;
     while (!feof(f)) {
-        int dummy = 0;
-        fscanf(f, "%d", &dummy);
+        size_t dummy = 0;
+        fscanf(f, "%zu", &dummy);
         i++;
     }
     fclose(f);
     return i;
 }
 
-int *get_ints(char *filename, size_t len) {
+size_t *get_ints(char *filename, size_t len) {
     FILE *f = fopen(filename, "r");
-    int *arr = calloc(sizeof(int), len);
+    size_t *arr = calloc(sizeof(int), len);
     for (int i = 0; !feof(f); i++)
-        fscanf(f, "%d", &arr[i]);
+        fscanf(f, "%zu", &arr[i]);
     fclose(f);
     return arr;
 }
 
 int main() {
     char *file = "measurements.txt";
-    int n = len_file(file);
-    int *arr = get_ints(file, n);
+    size_t n = len_file(file);
+    size_t *arr = get_ints(file, n);
 
     size_t ans = 0;
 
-    for (int i = 1; i < n; i++)
+    for (size_t i = 1; i < n; i++)
         if (arr[i] > arr[i - 1])
             ans++;
     printf("Answer: %ld\n", ans);

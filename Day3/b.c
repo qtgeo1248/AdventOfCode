@@ -18,14 +18,9 @@ static number *delete(number *start, bool is_one, size_t i) {
         else num1++;
     }
 
-    bool to_keep;
-    if (num1 > num0) to_keep = is_one;
-    else if (num1 < num0) to_keep = !is_one;
-    else to_keep = is_one;
-
+    bool to_keep = (num1 < num0) ^ is_one;
     number *prev = NULL;
     number *cur = start;
-
     while (cur != NULL) {
         if (cur->num[i] - '0' != to_keep) {
             if (prev == NULL) start = cur->next;
@@ -34,6 +29,7 @@ static number *delete(number *start, bool is_one, size_t i) {
             prev = cur;
         cur = cur->next;
     }
+
     return start;   
 }
 

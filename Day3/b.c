@@ -9,7 +9,7 @@ typedef struct thing {
     struct thing *next;
 } number;
 
-number *delete(number *start, bool is_one, size_t i) {
+static number *delete(number *start, bool is_one, size_t i) {
     size_t num1 = 0;
     size_t num0 = 0;
 
@@ -34,65 +34,50 @@ number *delete(number *start, bool is_one, size_t i) {
             prev = cur;
         cur = cur->next;
     }
-    return start;
-    
+    return start;   
 }
 
-int main() {
-    char *file = "numbers.txt";
+static long get_final(const char *file, bool is_one) {
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
-    size_t bit_len = 0;
 
-    fclose(f);
-
-    f = fopen(file, "r");
-    number *oxy = NULL;
-    number *co2 = NULL;
-    number *oxy_cur = oxy;
-    number *co2_cur = co2;
+    number *start = NULL;
+    number *cur = start;
 
     while (getline(&line, &n, f) != -1) {
-        bit_len = strlen(line) - 1;
-        number *num_oxy = calloc(1, sizeof(number));
-        number *num_co2 = calloc(1, sizeof(number));
+        size_t bit_len = strlen(line) - 1;
+        number *to_add = calloc(1, sizeof(number));
+        to_add->num = calloc(bit_len + 1, sizeof(char));
+        strncpy(to_add->num, line, bit_len);
 
-        num_oxy->num = calloc(bit_len + 1, sizeof(char));
-        strncpy(num_oxy->num, line, bit_len);
-        num_co2->num = calloc(bit_len + 1, sizeof(char));
-        strncpy(num_co2->num, line, bit_len);
-        
-        if (oxy == NULL) {
-            oxy = num_oxy;
-            co2 = num_co2;
-            oxy_cur = oxy;
-            co2_cur = co2;
+        if (start == NULL) {
+            start = to_add;
+            cur = start;
         } else {
-            oxy_cur->next = num_oxy;
-            co2_cur->next = num_co2;
-
-            oxy_cur = oxy_cur->next;
-            co2_cur = co2_cur->next;
+            cur->next = to_add;
+            cur = cur->next;
         }
     }
 
-    char *oxy_final = NULL;
-    char *co2_final = NULL;
-
+    char *final = NULL;
     size_t i = 0;
-    while (oxy_final == NULL || co2_final == NULL) {
-        if (oxy_final == NULL) {
-            oxy = delete(oxy, true, i);
-            if (oxy->next == NULL) oxy_final = oxy->num;
-        }
-        if (co2_final == NULL) {
-            co2 = delete(co2, false, i);
-            if (co2->next == NULL) co2_final = co2->num;
-        }
+    while (final == NULL) {
+        start = delete(start, is_one, i);
+        if (start->next == NULL) final = start->num;
         i++;
     }
-    printf("Answer: %zu\n", strtol(oxy_final, &oxy_final, 2) * strtol(co2_final, &co2_final, 2));
+
     fclose(f);
+    return strtol(final, NULL, 2);
+}
+
+int main() {
+    const char *file = "numbers.txt";
+
+    long oxy_final = get_final(file, true);
+    long co2_final = get_final(file, false);
+
+    printf("Answer: %zu\n", oxy_final * co2_final);
     return 0;
 }

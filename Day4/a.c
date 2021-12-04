@@ -5,15 +5,17 @@
 #include <stdio.h>
 #include <string.h>
 
+static const int len = 5;
+
 typedef struct list {
     long *nums;
     struct list *next;
 } node;
 
 static void print_arr(long *nums) {
-    for (size_t i = 0; i < 5; i++) {
-        for (size_t j = 0; j < 5; j++)
-            printf("%ld\t", nums[5 * i + j]);
+    for (size_t i = 0; i < len; i++) {
+        for (size_t j = 0; j < len; j++)
+            printf("%ld\t", nums[len * i + j]);
         printf("\n");
     }
     printf("\n");
@@ -32,23 +34,22 @@ static bool check(long *nums) {
         }
         if (is_col) return true;
     }
-    // bool is_diag = true;
-    // bool is_diag_other = true;
-    for (size_t i = 0; i < 5; i++) { 
+    for (size_t i = 0; i < 5; i++) 
         if (is_rows[i]) return true;
-    //     if (nums[5 * i + i] != -1) is_diag = false;
-    //     if (nums[5 * i + 4 - i] != -1) is_diag_other = false;
-    }
-    // if (is_diag || is_diag_other) return true;
     return false;
 }
 
 static long compute(long *nums) {
     long ans = 0;
-    for (size_t i = 0; i < 25; i++) {
+    for (size_t i = 0; i < len * len; i++)
         if (nums[i] != -1) ans += nums[i];
-    }
     return ans;
+}
+
+static void list_free(node *list) {
+    if (list == NULL) return;
+    list_free(list->next);
+    free(list->nums);
 }
 
 int main() {
@@ -73,7 +74,7 @@ int main() {
     while (getline(&line, &n, f) != EOF) {
         if (line[0] == '\n') {
             node *new = calloc(1, sizeof(node));
-            new->nums = calloc(25, sizeof(long));
+            new->nums = calloc(len * len, sizeof(long));
             if (start == NULL) {
                 start = new;
                 cur = new;
@@ -94,21 +95,22 @@ int main() {
     long ans = 0;
     size_t i = 0;
     bool not_found = true;
-    for (; i < num_called && not_found; i++) {
+    while (i < num_called && not_found) {
         for (cur = start; cur != NULL && not_found; cur = cur->next) {
-            for (size_t j = 0; j < 25; j++) {
+            for (size_t j = 0; j < len * len; j++)
                 if (cur->nums[j] == called[i])
                     cur->nums[j] = -1;
-            }
             if (check(cur->nums)) {
                 print_arr(cur->nums);
                 ans = compute(cur->nums);
                 not_found = false;
             }
         }
+        i++;
     }
 
     printf("Answer: %ld\n", ans * called[i - 1]);
+    list_free(start);
     fclose(f);
     return 0;
 }

@@ -13,7 +13,7 @@ int main() {
     size_t num_read = 0;
 
 
-    while (getline(&line, &n, f) != -1) {
+    while (getline(&line, &n, f) != EOF) {
         if (counts_one == NULL) { 
             bit_len = strlen(line) - 1;
             counts_one = calloc(bit_len, sizeof(size_t));

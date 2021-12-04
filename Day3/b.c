@@ -41,7 +41,7 @@ static long get_final(const char *file, bool is_one) {
     number *start = NULL;
     number *cur = start;
 
-    while (getline(&line, &n, f) != -1) {
+    while (getline(&line, &n, f) != EOF) {
         size_t bit_len = strlen(line) - 1;
         number *to_add = calloc(1, sizeof(number));
         to_add->num = calloc(bit_len + 1, sizeof(char));

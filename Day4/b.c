@@ -100,8 +100,9 @@ int main() {
                 if (cur == start) { 
                     start = cur->next; 
                     prev = start;
-                }
-                else prev->next = cur->next;
+                } else prev->next = cur->next;
+                free(cur->nums);
+                free(cur);
             }
             if (start == NULL) not_found = false;
             prev = cur;

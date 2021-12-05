@@ -30,8 +30,16 @@ static void print_grid(long *grid, long wid, long height) {
     }
 }
 
+static void free_list(node *start, node *end) {
+    if (start == end) free(end);
+    else {
+        free_list(start->next, end);
+        free(start);
+    }
+}
+
 int main() {
-    const char *file = "numbers.txt";
+    const char *file = "lines.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
@@ -69,15 +77,15 @@ int main() {
         long dx = incr(cur->x2, cur->x1);
         long dy = incr(cur->y2, cur->y1);
         while ((x != cur->x2 + dx) || (y != cur->y2 + dy)) {
-            printf("(%ld, %ld) ", x, y);
+            // printf("(%ld, %ld) ", x, y);
             (grid[max_x * y + x])++;
             x += dx;
             y += dy;
         }
-        printf("\n");
+        // printf("\n");
     }
 
-    print_grid(grid, max_x, max_y);
+    // print_grid(grid, max_x, max_y);
 
     size_t ans = 0;
     for (size_t i = 0; i < max_x * max_y; i++)
@@ -85,6 +93,9 @@ int main() {
             ans++;
 
     printf("Answer: %zu\n", ans);
+    free_list(start, end);
+    free(grid);
+    free(line);
     fclose(f);
     return 0;
 }

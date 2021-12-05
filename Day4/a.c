@@ -53,7 +53,7 @@ static void list_free(node *list) {
 }
 
 int main() {
-    const char *file = "numbers.txt";
+    const char *file = "bingo.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;

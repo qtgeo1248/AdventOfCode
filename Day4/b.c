@@ -12,6 +12,36 @@ typedef struct list {
     struct list *next;
 } node;
 
+static node *get_cards(FILE *f) {
+    char *line = NULL;
+    size_t n = 0;
+    node *start = NULL;
+    node *cur = NULL;
+    size_t cur_idx = 0;
+    while (getline(&line, &n, f) != EOF) {
+        if (line[0] == '\n') {
+            node *new = calloc(1, sizeof(node));
+            new->nums = calloc(len * len, sizeof(long));
+            if (start == NULL) {
+                start = new;
+                cur = new;
+            } else {
+                cur->next = new;
+                cur = cur->next;
+            }
+            cur_idx = 0;
+        } else {
+            char *temp = line;
+            do {
+                long num = strtol(temp, &temp, 10);
+                cur->nums[cur_idx] = num;
+                cur_idx++;
+            } while (temp[0] != '\n');
+        }
+    }
+    return start;
+}
+
 static void print_arr(long *nums) {
     for (size_t i = 0; i < len; i++) {
         for (size_t j = 0; j < len; j++)
@@ -47,7 +77,7 @@ static long compute(long *nums) {
 }
 
 int main() {
-    const char *file = "numbers.txt";
+    const char *file = "bingo.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
@@ -62,49 +92,24 @@ int main() {
         tok = strtok(NULL, ",");
     }
 
-    node *start = NULL;
-    node *cur = start;
-    size_t cur_idx = 0;
-    while (getline(&line, &n, f) != EOF) {
-        if (line[0] == '\n') {
-            node *new = calloc(1, sizeof(node));
-            new->nums = calloc(len * len, sizeof(long));
-            if (start == NULL) {
-                start = new;
-                cur = new;
-            } else {
-                cur->next = new;
-                cur = cur->next;
-            }
-            cur_idx = 0;
-        } else {
-            char *temp = line;
-            do {
-                long num = strtol(temp, &temp, 10);
-                cur->nums[cur_idx] = num;
-                cur_idx++;
-            } while (temp[0] != '\n');
-        }
-    }
+    node *first = get_cards(f);
     node *last = NULL;
     size_t i = 0;
     bool not_found = true;
     while (i < num_called && not_found) {
-        node *prev = start;
-        for (cur = start; cur != NULL; cur = cur->next) {
+        node *prev = first;
+        for (node *cur = first; cur != NULL; cur = cur->next) {
             for (size_t j = 0; j < len * len; j++)
                 if (cur->nums[j] == called[i]) cur->nums[j] = -1;
             if (check(cur->nums)) {
                 print_arr(cur->nums);
                 last = cur;
-                if (cur == start) { 
-                    start = cur->next; 
-                    prev = start;
+                if (cur == first) { 
+                    first = cur->next; 
+                    prev = first;
                 } else prev->next = cur->next;
-                free(cur->nums);
-                free(cur);
             }
-            if (start == NULL) not_found = false;
+            if (first == NULL) not_found = false;
             prev = cur;
         }
         i++;

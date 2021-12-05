@@ -39,6 +39,7 @@ static node *get_cards(FILE *f) {
             } while (temp[0] != '\n');
         }
     }
+    free(line);
     return start;
 }
 
@@ -91,6 +92,7 @@ int main() {
         num_called++;
         tok = strtok(NULL, ",");
     }
+    free(line);
 
     node *first = get_cards(f);
     node *last = NULL;
@@ -102,10 +104,9 @@ int main() {
             for (size_t j = 0; j < len * len; j++)
                 if (cur->nums[j] == called[i]) cur->nums[j] = -1;
             if (check(cur->nums)) {
-                print_arr(cur->nums);
                 last = cur;
-                if (cur == first) { 
-                    first = cur->next; 
+                if (cur == first) {
+                    first = cur->next;
                     prev = first;
                 } else prev->next = cur->next;
             }

@@ -92,6 +92,7 @@ int main() {
             } while (temp[0] != '\n');
         }
     }
+    free(line);
     long ans = 0;
     size_t i = 0;
     bool not_found = true;

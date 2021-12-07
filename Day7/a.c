@@ -1,5 +1,6 @@
 #define _GNU_SOURCE
 #include <assert.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -8,8 +9,8 @@
 
 const size_t days = 80;
 
-size_t myabs(long x) {
-    return (size_t)(x >= 0 ? x : -1 * x);
+long myabs(long x) {
+    return x >= 0 ? x : -1 * x;
 }
 
 void print_arr(long *arr, size_t len) {
@@ -19,7 +20,7 @@ void print_arr(long *arr, size_t len) {
 }
 
 int main() {
-    const char *file = "timers.txt";
+    const char *file = "positions.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
@@ -43,18 +44,18 @@ int main() {
         tok = strtok(NULL, ",");
     }
 
-    size_t total = SIZE_MAX;
+    long total = -1;
     for (long i = 0; i <= max; i++) {
-        size_t cur = 0;
+        long cur = 0;
         for (size_t j = 0; j < num_read; j++)
             cur += myabs(crabs[j] - i);
-        if (cur < total)
-            total = cur;
+        if (total == -1 || cur < total) total = cur;
     }
 
     print_arr(crabs, num_read);
 
-    printf("Answer: %zu\n", total);
+    printf("Answer: %ld\n", total);
+    free(crabs);
     free(line);
     fclose(f);
     return 0;

@@ -27,22 +27,19 @@ void print_basins(size_t *basins, size_t wid, size_t hei) {
     }
 }
 
-void fill_basin(size_t i, size_t j, size_t w, size_t h, int *heights, size_t *basins, size_t id) {
-    if (basins[get_ind(i, j, w)] > 0 || heights[get_ind(i, j, w)] == 9) return;
-    basins[get_ind(i, j, w)] = id;
-    int height = heights[get_ind(i, j, w)];
-    if (j > 0 && height < heights[get_ind(i, j - 1, w)])
-        fill_basin(i, j - 1, w, h, heights, basins, id);
-    if (i > 0 && height < heights[get_ind(i - 1, j, w)])
-        fill_basin(i - 1, j, w, h, heights, basins, id);
-    if (j < w - 1 && height < heights[get_ind(i, j + 1, w)])
-        fill_basin(i, j + 1, w, h, heights, basins, id);
-    if (i < h - 1 && height < heights[get_ind(i + 1, j, w)])
-        fill_basin(i + 1, j, w, h, heights, basins, id);
+void fill_basin(size_t i, size_t j, size_t wid, size_t hei, int *heights, size_t *basins, size_t id) {
+    if (j == (size_t)(-1) || j >= wid || i == (size_t)(-1) || i >= hei
+        || basins[get_ind(i, j, wid)] > 0 || heights[get_ind(i, j, wid)] == 9)
+        return;
+    basins[get_ind(i, j, wid)] = id;
+    fill_basin(i, j - 1, wid, hei, heights, basins, id);
+    fill_basin(i - 1, j, wid, hei, heights, basins, id);
+    fill_basin(i, j + 1, wid, hei, heights, basins, id);
+    fill_basin(i + 1, j, wid, hei, heights, basins, id);
 }
 
 int main() {
-    const char *file = "positions.txt";
+    const char *file = "heights.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
@@ -72,13 +69,10 @@ int main() {
         for (size_t j = 0; j < wid; j++) {
             bool is_low = true;
             int h = heights[get_ind(i, j, wid)];
-            if (j > 0 && h >= heights[get_ind(i, j - 1, wid)])
-                is_low = false;
-            if (i > 0 && h >= heights[get_ind(i - 1, j, wid)])
-                is_low = false;
-            if (j < wid - 1 && h >= heights[get_ind(i, j + 1, wid)])
-                is_low = false;
-            if (i < hei - 1 && h >= heights[get_ind(i + 1, j, wid)])
+            if ((j > 0 && h >= heights[get_ind(i, j - 1, wid)])
+                || (i > 0 && h >= heights[get_ind(i - 1, j, wid)])
+                || (j < wid - 1 && h >= heights[get_ind(i, j + 1, wid)])
+                || (i < hei - 1 && h >= heights[get_ind(i + 1, j, wid)]))
                 is_low = false;
             if (is_low) {
                 num_basins++;
@@ -114,6 +108,8 @@ int main() {
 
     printf("Answer: %zu\n", first * second * third);
     free(heights);
+    free(basins);
+    free(sizes);
     free(line);
     fclose(f);
     return 0;

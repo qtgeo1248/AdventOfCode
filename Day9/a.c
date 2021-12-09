@@ -20,7 +20,7 @@ size_t get_ind(size_t i, size_t j, size_t w) {
 }
 
 int main() {
-    const char *file = "positions.txt";
+    const char *file = "heights.txt";
     FILE *f = fopen(file, "r");
     char *line = NULL;
     size_t n = 0;
@@ -49,10 +49,11 @@ int main() {
         for (size_t j = 0; j < wid; j++) {
             bool is_low = true;
             int h = heights[get_ind(i, j, wid)];
-            if (j > 0 && h >= heights[get_ind(i, j - 1, wid)]) is_low = false;
-            if (i > 0 && h >= heights[get_ind(i - 1, j, wid)]) is_low = false;
-            if (j < wid - 1 && h >= heights[get_ind(i, j + 1, wid)]) is_low = false;
-            if (i < hei - 1 && h >= heights[get_ind(i + 1, j, wid)]) is_low = false;
+            if ((j > 0 && h >= heights[get_ind(i, j - 1, wid)])
+                || (i > 0 && h >= heights[get_ind(i - 1, j, wid)])
+                || (j < wid - 1 && h >= heights[get_ind(i, j + 1, wid)])
+                || (i < hei - 1 && h >= heights[get_ind(i + 1, j, wid)]))
+                is_low = false;
             if (is_low) risk += (unsigned int)(h + 1);
         }
     }

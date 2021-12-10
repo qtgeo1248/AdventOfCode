@@ -17,10 +17,23 @@ typedef struct {
     list *tail;
 } stack;
 
-void print_list(stack *L) {
-    for (list *cur = L->head; cur != L->tail; cur = cur->next)
+void print_list(stack *S) {
+    for (list *cur = S->head; cur != S->tail; cur = cur->next)
         printf("%c ", cur->c);
     printf("\n");
+}
+
+void free_list(list *head, list *tail) {
+    if (head == tail) free(head);
+    else {
+        free_list(head->next, tail);
+        free(head);
+    }
+}
+
+void free_stack(stack *S) {
+    free_list(S->head, S->tail);
+    free(S);
 }
 
 int main() {
@@ -60,6 +73,7 @@ int main() {
                 }
             }
         }
+        free_stack(chars);
     }
 
     printf("Answer: %zu\n", score);

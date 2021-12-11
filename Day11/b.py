@@ -33,11 +33,11 @@ def main():
     flashes = 0
     f = open("octopi.txt")
     octopi = []
-    for x in f:
+    for line in f:
         row = []
-        for i in range(len(x)):
-            if x[i] != '\n':
-                row.append([ord(x[i]) - ord('0'), True])
+        for i in range(len(line)):
+            if line[i] != '\n':
+                row.append([ord(line[i]) - ord('0'), True])
         octopi.append(row)
 
     step = 0

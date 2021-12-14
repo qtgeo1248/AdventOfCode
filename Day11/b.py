@@ -30,7 +30,6 @@ def printOctopi(octopi):
     print("\n")
 
 def main():
-    flashes = 0
     f = open("octopi.txt")
     octopi = []
     for line in f:
@@ -52,6 +51,7 @@ def main():
         # printOctopi(octopi)
     
     print("Answer: " + str(step))
+    f.close()
 
 if __name__ ==  "__main__":
     main()

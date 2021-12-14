@@ -31,9 +31,9 @@ My Positions
 
 def init(start):
     wires = []
-    for i in range(numPos):
+    for _ in range(numPos):
         row = []
-        for j in range(numPos):
+        for _ in range(numPos):
             row.append(start)
         wires.append(row)
     return wires

@@ -35,7 +35,7 @@ def main():
     octopi = []
     for line in f:
         row = []
-        for i in range(len(x)):
+        for i in range(len(line)):
             if line[i] != '\n':
                 row.append([ord(line[i]) - ord('0'), True])
         octopi.append(row)
@@ -48,6 +48,7 @@ def main():
         # printOctopi(octopi)
     
     print("Answer: " + str(flashes))
+    f.close()
 
 if __name__ ==  "__main__":
     main()

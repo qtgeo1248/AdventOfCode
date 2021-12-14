@@ -2,7 +2,7 @@ import pprint
 
 def main():
     pp = pprint.PrettyPrinter()
-    f = open("polymer.txt")
+    f = open("folds.txt")
 
     dots = set()
     readDots = True

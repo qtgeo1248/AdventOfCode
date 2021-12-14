@@ -32,20 +32,21 @@ My Positions
 def init(start):
     wires = []
     for _ in range(numPos):
-        row = []
-        for _ in range(numPos):
-            row.append(start)
+        row = set()
+        if start:
+            for j in range(numPos):
+                row.add(j)
         wires.append(row)
     return wires
 
 # Removes the possibilities of the possible positions of wires
 def rem_easy(wires, posses, pos, tester):
     for i in range(numPos):
-        if (wires[pos][tester] ^ easy[tester][i]):
-            posses[pos][i] = False;
+        if ((tester in wires[pos]) ^ (easy[tester][i])) and i in posses[pos]:
+            posses[pos].remove(i)
 
 def main():
-    f = open("displays.txt")
+    f = open("test.txt")
     pp = pprint.PrettyPrinter()
     for line in f:
         wires = init(False)
@@ -54,7 +55,7 @@ def main():
         while code[i] != "|":
             tok = code[i]
             for j in range(len(tok)):
-                wires[ord(tok[j]) - ord('a')][len(tok) - 2] = True
+                wires[ord(tok[j]) - ord('a')].add(len(tok) - 2)
             i += 1
         
         posses = init(True)

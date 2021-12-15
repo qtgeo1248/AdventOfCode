@@ -1,5 +1,6 @@
 import pprint
 
+pp = pprint.PrettyPrinter()
 numPos = 7
 numDigits = 10
 
@@ -8,12 +9,6 @@ easy = [
     [False, False, True, False, False, True, False],
     [True, False, True, False, False, True, False],
     [False, True, True, True, False, True, False]]
-
-# If you have a possibility on the left, you can't have a length on the right
-hard = {
-    3: 2,
-    4: 3,
-    5: 3}
 
 # Decoding
 decoders = [
@@ -26,8 +21,7 @@ decoders = [
     {0, 1, 3, 4, 5, 6},
     {0, 2, 5},
     {0, 1, 2, 3, 4, 5, 6},
-    {0, 1, 2, 3, 5, 6}
-]
+    {0, 1, 2, 3, 5, 6}]
 
 '''
 My Positions 
@@ -54,24 +48,49 @@ def rem_easy(wires, posses, pos, tester):
         if ((tester in wires[pos]) ^ (easy[tester][i])) and i in posses[pos]:
             posses[pos].remove(i)
 
+def rewire(rewiring, hint):
+    positions = set()
+    for pos in hint:
+        positions.add(rewiring[pos])
+    return positions
+
+def other(poss, j):
+    for i in poss:
+        if i != j:
+            return i
+
+def getTrials(posses, i, trials, done):
+    if i < len(posses):
+        if i in done:
+            return getTrials(posses, i + 1, trials, done)
+        newTrials = []
+        newDone = done.copy()
+        for j in posses[i]:
+            for trial in trials:
+                newTrial = trial.copy()
+                newTrial[i] = j
+                newDone.append(j)
+                for newI in range(len(newTrial)):
+                    if newI != i and j in posses[newI]:
+                        newDone.append(newI)
+                        newTrial[newI] = other(posses[newI], j)
+                newTrials.append(newTrial)
+        return getTrials(posses, i + 1, newTrials, newDone)
+    return trials
+
 # Each thing only has pairs left, so deduces it one by one
-def rem_hard(wires, posses):
-    pp = pprint.PrettyPrinter()
-    for i in range(numPos):
-        notRemoved = True
-        pp.pprint(posses)
-        k = 0
-        while notRemoved and k < len(posses[i]):
-            tester = list(posses[i])[k]
-            pp.pprint(tester)
-            if tester in hard.keys() and hard[tester] in wires[i]:
-                notRemoved = False
-                posses[i].remove(tester)
-                other = list(posses[i])[0]
-                for j in range(numPos):
-                    if i != j and other in posses[j]:
-                        posses[j].remove(other)
-            k += 1
+def remHard(posses, hints):
+    pp.pprint(posses)
+    trials = getTrials(posses, 0, [[None for _ in range(len(posses))]], [])
+    pp.pprint(trials)
+    for trial in trials:
+        isValid = True
+        for hint in hints:
+            untangled = rewire(trial, hint)
+            if untangled not in decoders:
+                isValid = False
+        if isValid:
+            return trial
 
 def digit(positions):
     for i in range(numDigits):
@@ -79,31 +98,31 @@ def digit(positions):
             return i
 
 def main():
-    f = open("test1.txt")
-    pp = pprint.PrettyPrinter()
+    f = open("test.txt")
     ans = 0
     for line in f:
+        hints = []
         wires = init(False)
         code = line.split(" ")
         tokidx = 0
         while code[tokidx] != "|":
             tok = code[tokidx]
+            hint = set()
             for j in range(len(tok)):
                 wires[ord(tok[j]) - ord('a')].add(len(tok) - 2)
+                hint.add(ord(tok[j]) - ord('a'))
+            if len(hint) != 2 and len(hint) != 3 and len(hint) != 4 and len(hint) != 7:
+                hints.append(hint)
             tokidx += 1
         tokidx += 1
 
         pp.pprint(wires)
+        # pp.pprint(hints)
         posses = init(True)
         for i in range(numPos):
             for j in range(3):
                 rem_easy(wires, posses, i, j)
-        rem_hard(wires, posses)
-        pp.pprint(posses)
-
-        rewiring = []
-        for i in range(numPos):
-            rewiring.append(list(posses[i])[0])
+        rewiring = remHard(posses, hints)
         pp.pprint(rewiring)
 
         output = 0

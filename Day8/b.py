@@ -65,11 +65,11 @@ def getTrials(posses, i, trials, done):
             return getTrials(posses, i + 1, trials, done)
         newTrials = []
         newDone = done.copy()
+        done.append(i)
         for j in posses[i]:
             for trial in trials:
                 newTrial = trial.copy()
                 newTrial[i] = j
-                newDone.append(j)
                 for newI in range(len(newTrial)):
                     if newI != i and j in posses[newI]:
                         newDone.append(newI)
@@ -80,9 +80,9 @@ def getTrials(posses, i, trials, done):
 
 # Each thing only has pairs left, so deduces it one by one
 def remHard(posses, hints):
-    pp.pprint(posses)
+    # pp.pprint(posses)
     trials = getTrials(posses, 0, [[None for _ in range(len(posses))]], [])
-    pp.pprint(trials)
+    # pp.pprint(trials)
     for trial in trials:
         isValid = True
         for hint in hints:
@@ -98,7 +98,7 @@ def digit(positions):
             return i
 
 def main():
-    f = open("test.txt")
+    f = open("displays.txt")
     ans = 0
     for line in f:
         hints = []
@@ -116,14 +116,14 @@ def main():
             tokidx += 1
         tokidx += 1
 
-        pp.pprint(wires)
+        # pp.pprint(wires)
         # pp.pprint(hints)
         posses = init(True)
         for i in range(numPos):
             for j in range(3):
                 rem_easy(wires, posses, i, j)
         rewiring = remHard(posses, hints)
-        pp.pprint(rewiring)
+        # pp.pprint(rewiring)
 
         output = 0
         while tokidx < len(code):
@@ -133,7 +133,8 @@ def main():
                 positions.add(rewiring[ord(tok[i]) - ord('a')])
             output = 10 * output + digit(positions)
             tokidx += 1
-        pp.pprint(output)
+        ans += output
+    print("Answer: " + str(ans))
 
 if __name__ == "__main__":
     main()

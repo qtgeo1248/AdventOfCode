@@ -20,40 +20,66 @@ def bitsToNum(bits, lo, hi):
         num += bits[i]
     return num
 
-# returns num bits processed
+# returns (val, num bits processed)
 def processLiteral(bits, start):
     numBits = 0
+    val = 0
     while bits[start] != 0:
+        val += bitsToNum(bits, start + 1, start + 5)
+        val <<= 4
         start += 5
         numBits += 5
-    return numBits + 5
+    val += bitsToNum(bits, start + 1, start + 5)
+    return (val, numBits + 5)
 
 # lo is inclusive, hi is exclusive
-# Returns (version sum, numProcessed)
+# Returns (value, numProcessed)
 def processBits(bits, lo):
-    ver = bitsToNum(bits, lo, lo + 3)
     typeId = bitsToNum(bits, lo + 3, lo + 6)
     if typeId == 4:
-        numProc = processLiteral(bits, lo + 6)
-        return (ver, numProc + 6)
+        (val, numProc) = processLiteral(bits, lo + 6)
+        return (val, numProc + 6)
     else:
-        typeId = bitsToNum(bits, lo + 6, lo + 7)
+        val = None
+        lenId = bitsToNum(bits, lo + 6, lo + 7)
         numProc = 0
-        if typeId: # equals 1
+        packets = []
+        if lenId: # equals 1
             numPackets = bitsToNum(bits, lo + 7, lo + 18)
+            offset = 18
             while numPackets > 0:
-                (nextVer, nextProc) = processBits(bits, lo + 18 + numProc)
+                (nextVal, nextProc) = processBits(bits, lo + 18 + numProc)
                 numProc += nextProc
-                ver += nextVer
                 numPackets -= 1
-            return (ver, numProc + 18)
+                packets.append(nextVal)
         else:
             lenPackets = bitsToNum(bits, lo + 7, lo + 22)
+            offset = 22
             while numProc < lenPackets:
-                (nextVer, nextProc) = processBits(bits, lo + 22 + numProc)
+                (nextVal, nextProc) = processBits(bits, lo + 22 + numProc)
                 numProc += nextProc
-                ver += nextVer
-            return (ver, numProc + 22)
+                packets.append(nextVal)
+        if typeId == 0:
+            val = 0
+            for packet in packets:
+                val += packet
+        elif typeId == 1:
+            val = 1
+            for packet in packets:
+                val *= packet
+        elif typeId == 2:
+            for packet in packets:
+                val = packet if val is None or packet < val else val
+        elif typeId == 3:
+            for packet in packets:
+                val = packet if val is None or packet > val else val
+        elif typeId == 5:
+            val = int(packets[0] > packets[1])
+        elif typeId == 6:
+            val = int(packets[0] < packets[1])
+        elif typeId == 7:
+            val = int(packets[0] == packets[1])
+        return (val, numProc + offset)
 
 
 def main():

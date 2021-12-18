@@ -4,7 +4,6 @@ import math
 pp = pprint.PrettyPrinter()
 
 # Beginning of line is '['
-# 
 # Returns (arr, numProcessed)
 def process(line):
     left = None
@@ -24,45 +23,42 @@ def process(line):
 
 # Brings right side of explosion all the way down to the path, given idx
 def bringDown(snailSum, r, idx):
-    if type(snailSum[idx]) is int:
-        snailSum[idx] += r
-    else:
-        bringDown(snailSum[idx], r, idx)
+    if type(snailSum) is int:
+        return snailSum + r
+    snailSum[idx] = bringDown(snailSum[idx], r, idx)
+    return snailSum
 
-# Returns ((l, r), )
-# isExploded is return value to help you keep exploding int parent, while
-# checking if child is None is for seeing if you need to edit
+# It will go down to every child and check if you need to explode. It will pass
+# information up from parent to parent so the necessary parent passes down the
+# things needed to be edited.
+# Returns ([l, r], isExploded)
+# [l, r] is None if and only if isExploded is False
+# l being None means that the changes for the left number of the exploding pair
+# have been propgated (by you, or your child already)
 def explode(snailSum, depth):
     # pp.pprint(snailSum)
     if type(snailSum) is int:
         return (None, False)
-    else:
-        if depth < 4:
-            (child, isExploded) = explode(snailSum[0], depth + 1)
+    if depth < 4:
+        for idx in range(2):
+            # See if your child needs to explode
+            (child, isExploded) = explode(snailSum[idx], depth + 1)
             if isExploded:
+                output = [child[0], child[1]]
                 if depth == 3:
-                    snailSum[0] = 0
-                if child[1] is not None:
-                    if type(snailSum[1]) is int:
-                        snailSum[1] += child[1]
-                    else: 
-                        bringDown(snailSum[1], child[1], 0)
-                return ((child[0], None), isExploded)
-            else: 
-                (child, isExploded) = explode(snailSum[1], depth + 1)
-                if isExploded:
-                    if depth == 3:
-                        snailSum[1] = 0
-                    if child[0] is not None:
-                        if type(snailSum[0]) is int:
-                            snailSum[0] += child[0]
-                        else: 
-                            bringDown(snailSum[0], child[0], 1)
-                    return ((None, child[1]), isExploded)
-                else:
-                    return (None, False)
-        if depth == 4:
-            return ((snailSum[0], snailSum[1]), True)
+                    snailSum[idx] = 0
+                # Note that if you are seeing if your left child exploded, you
+                # need to edit the right branch, and vice verse
+                other = int(not idx)
+                if child[other] is not None:
+                    # This being non-None means that the child has exploded, but
+                    # changes haven't been propogated yet
+                    snailSum[other] = bringDown(snailSum[other], child[other], idx)
+                    output[other] = None
+                return (output, isExploded)
+        return (None, False)
+    if depth == 4:
+        return ([snailSum[0], snailSum[1]], True)
 
 # Returns (splitArr, isSplit)
 def split(snailSum):

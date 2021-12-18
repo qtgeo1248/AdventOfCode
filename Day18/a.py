@@ -3,6 +3,9 @@ import math
 
 pp = pprint.PrettyPrinter()
 
+# It processed things left to right, and returns the number of things processed.
+# This helps the parent locate where the ending of their child is to find the
+# comma, since commas always come after a ']'.
 # Beginning of line is '['
 # Returns (arr, numProcessed)
 def process(line):

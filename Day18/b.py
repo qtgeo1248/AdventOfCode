@@ -29,9 +29,8 @@ def bringDown(snailSum, r, idx):
     else:
         bringDown(snailSum[idx], r, idx)
 
-# Returns ((l, r), )
-# isExploded is return value to help you keep exploding int parent, while
-# checking if child is None is for seeing if you need to edit
+# Returns ((l, r), isExploded)
+# (l, r) is None if and only if isExploded is False
 def explode(snailSum, depth):
     # pp.pprint(snailSum)
     if type(snailSum) is int:

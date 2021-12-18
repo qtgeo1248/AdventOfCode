@@ -1,4 +1,5 @@
 import pprint
+import math
 
 pp = pprint.PrettyPrinter()
 
@@ -26,71 +27,90 @@ def bringDown(snailSum, r, idx):
     if type(snailSum[idx]) is int:
         snailSum[idx] += r
     else:
-        bringDown(snailSum[idx], r)
+        bringDown(snailSum[idx], r, idx)
 
 # Returns ((l, r), )
 # isExploded is return value to help you keep exploding int parent, while
 # checking if child is None is for seeing if you need to edit
 def explode(snailSum, depth):
-    pp.pprint(snailSum)
+    # pp.pprint(snailSum)
     if type(snailSum) is int:
         return (None, False)
     else:
         if depth < 4:
             (child, isExploded) = explode(snailSum[0], depth + 1)
             if isExploded:
-                if child is not None:
-                    if depth == 3:
-                        snailSum[0] = 0
-                    if child[1] is not None:
-                        if type(snailSum[1]) is int:
-                            snailSum[1] += child[1]
-                        else: 
-                            bringDown(snailSum[1], child[1], 0)
-                    return ((child[0], None), isExploded)
-                return (child, isExploded)
+                if depth == 3:
+                    snailSum[0] = 0
+                if child[1] is not None:
+                    if type(snailSum[1]) is int:
+                        snailSum[1] += child[1]
+                    else: 
+                        bringDown(snailSum[1], child[1], 0)
+                return ((child[0], None), isExploded)
             else: 
                 (child, isExploded) = explode(snailSum[1], depth + 1)
                 if isExploded:
-                    if child is not None:
-                        if depth == 3:
-                            snailSum[1] = 0
-                        if child[0] is not None:
-                            if type(snailSum[0]) is int:
-                                snailSum[0] += child[0]
-                            else: 
-                                bringDown(snailSum[0], child[0], 1)
+                    if depth == 3:
+                        snailSum[1] = 0
+                    if child[0] is not None:
+                        if type(snailSum[0]) is int:
+                            snailSum[0] += child[0]
+                        else: 
+                            bringDown(snailSum[0], child[0], 1)
                     return ((None, child[1]), isExploded)
                 else:
                     return (None, False)
         if depth == 4:
             return ((snailSum[0], snailSum[1]), True)
 
+# Returns (splitArr, isSplit)
+def split(snailSum):
+    if type(snailSum) is int:
+        if snailSum >= 10:
+            return ([math.floor(snailSum / 2), math.ceil(snailSum / 2)], True)
+        else:
+            return (snailSum, False)
+    else:
+        left = split(snailSum[0])
+        snailSum[0] = left[0]
+        if not left[1]:
+            right = split(snailSum[1])
+            snailSum[1] = right[0]
+            return (snailSum, right[1])
+        else:
+            return (snailSum, True)
+
 def reduced(snailSum):
-    while explode(snailSum, 0)[1]:
-        snailSum = snailSum
+    notReduced = True
+    while notReduced:
+        if not explode(snailSum, 0)[1] and not split(snailSum)[1]:
+            notReduced = False
     return snailSum
 
+def magnitude(snailSum):
+    if type(snailSum) is int:
+        return snailSum
+    else:
+        return 3 * magnitude(snailSum[0]) + 2 * magnitude(snailSum[1])
+
 def main():
-    f = open("tests/testExplode5.txt")
+    f = open("homework.txt")
 
     addends = []
     for line in f:
         line = line.rstrip()
         addends.append(process(line)[0])
-
-    explode(addends[0], 0)
-    pp.pprint(addends[0])
     
-    # while len(addends) > 1:
-    #     left = addends.pop(0)
-    #     right = addends[0]
-    #     snailSum = [left, right]
-    #     addends[0] = reduced(snailSum)
+    while len(addends) > 1:
+        left = addends.pop(0)
+        right = addends[0]
+        snailSum = [left, right]
+        addends[0] = reduced(snailSum)
 
-    # pp.pprint(addends)
+    pp.pprint(addends[0])
 
-    print("Answer: ")
+    print("Answer: " + str(magnitude(addends[0])))
     f.close()
 
 if __name__ ==  "__main__":

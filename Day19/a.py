@@ -89,6 +89,21 @@ def attempt(i, j, scanners, conns, offsets):
                         offsets[(i, j)] = (r, offset)
                         return
 
+def adjust(p, cur, edgesAdded, offsets):
+    prev = edgesAdded[cur]
+    while cur != 0:
+        if prev < cur:
+            (r, off) = offsets[(prev, cur)]
+            p = add(rotate(p, r), off)
+        else:
+            (r, off) = offsets[(cur, prev)]
+            # we know r(prev) + off = cur, so r^{-1}(cur - off) = prev
+            # Notice that r^4 = e in rotation land, so r^{-1} = r^3
+            p = rotate(rotate(rotate(sub(p, off), r), r), r)
+        cur = prev
+        prev = edgesAdded[prev]
+    return p
+
 def main():
     f = open("tests/test.txt")
 
@@ -105,6 +120,7 @@ def main():
                 curScanner.append(tuple([int(coord[i]) for i in range(len(coord))]))
     scanners.append(curScanner)
 
+    # Graph of scanners that are connected based on our criteria
     connected = [[] for _ in range(len(scanners))]
     # For pair of scanners (i, j), it records the (rot, offset) needed to get
     # from j to i, and i will always be less than j
@@ -119,29 +135,23 @@ def main():
     # Adding points (make sure to edit the scanners points as you go)
     added = [False for _ in range(len(scanners))]
     beacons = set() # Scanner 0 is at (0, 0, 0)
-    edgesAdded = {}
+    edgesAdded = {} # Dicts of edges explored in my "graph"
     toAdd = [(0, 0)]
     added[0] = True
     while len(toAdd) > 0:
         (prev, cur) = toAdd.pop(0)
-        pp.pprint((prev, cur))
+        edgesAdded[cur] = prev
+        # pp.pprint(edgesAdded)
+        # pp.pprint((prev, cur))
         if cur == 0:
             for p in scanners[0]:
                 beacons.add(p)
         else:
             for i in range(len(scanners[cur])):
-                newP = None
-                # if prev < cur:
-                #     (r, off) = offsets[(prev, cur)]
-                #     newP = add(rotate(scanners[cur][i], r), off)
-                # else:
-                #     (r, off) = offsets[(cur, prev)]
-                #     # we know r(prev) + off = cur, so r^{-1}(cur - off) = prev
-                #     newP = rotate(sub(scanners[cur][i], off), r)
-                #     newP = (-newP[0], -newP[1], -newP[2])
+                newP = adjust(scanners[cur][i], cur, edgesAdded, offsets)
                 scanners[cur][i] = newP
                 beacons.add(newP)
-            pp.pprint(scanners[cur])
+            # pp.pprint(scanners[cur])
         for neigh in connected[cur]:
             if not added[neigh]:
                 added[neigh] = True

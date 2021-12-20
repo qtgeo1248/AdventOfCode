@@ -66,7 +66,7 @@ def add(p1, p2):
 def sub(p1, p2):
     return (p1[0] - p2[0], p1[1] - p2[1], p1[2] - p2[2])
 
-def attempt(i, j, scanners, conns, offsets):
+def attempt(i, j, scanners, edgesAdded, offsets):
     # s1 stays fixed, while s2 rotates around by d
     s1 = scanners[i]
     s2 = scanners[j]
@@ -84,28 +84,22 @@ def attempt(i, j, scanners, conns, offsets):
                     if newP in points1:
                         matches += 1
                     if matches >= 12:
-                        conns[i].append(j)
-                        conns[j].append(i)
+                        edgesAdded[j] = i
                         offsets[(i, j)] = (r, offset)
-                        return
+                        return True
+    return False
 
 def adjust(p, cur, edgesAdded, offsets):
     prev = edgesAdded[cur]
     while cur != 0:
-        if prev < cur:
-            (r, off) = offsets[(prev, cur)]
-            p = add(rotate(p, r), off)
-        else:
-            (r, off) = offsets[(cur, prev)]
-            # we know r(prev) + off = cur, so r^{-1}(cur - off) = prev
-            # Notice that r^4 = e in rotation land, so r^{-1} = r^3
-            p = rotate(rotate(rotate(sub(p, off), r), r), r)
+        (r, off) = offsets[(prev, cur)]
+        p = add(rotate(p, r), off)
         cur = prev
         prev = edgesAdded[prev]
     return p
 
 def main():
-    f = open("tests/test.txt")
+    f = open("scanners.txt")
 
     scanners = []
     curScanner = None
@@ -121,41 +115,32 @@ def main():
     scanners.append(curScanner)
 
     # Graph of scanners that are connected based on our criteria
-    connected = [[] for _ in range(len(scanners))]
+    edgesAdded = {} # Dicts of edges explored in my "graph"
+    added = [False for _ in range(len(scanners))]
+    added[0] = True
+    toAdd = [0]
+    edgesAdded[0] = 0
     # For pair of scanners (i, j), it records the (rot, offset) needed to get
-    # from j to i, and i will always be less than j
+    # from j to i, and j always is the one being edited
     offsets = {}
-    for i in range(len(scanners)):
-        for j in range(i + 1, len(scanners)):
-            attempt(i, j, scanners, connected, offsets)
+    while len(toAdd) > 0:
+        i = toAdd.pop(0)
+        for j in range(len(scanners)):
+            if i != j and not added[j]:
+                if attempt(i, j, scanners, edgesAdded, offsets):
+                    added[j] = True
+                    toAdd.append(j)
     
-    pp.pprint(connected)
+    pp.pprint(edgesAdded)
     pp.pprint(offsets)
 
-    # Adding points (make sure to edit the scanners points as you go)
-    added = [False for _ in range(len(scanners))]
     beacons = set() # Scanner 0 is at (0, 0, 0)
-    edgesAdded = {} # Dicts of edges explored in my "graph"
-    toAdd = [(0, 0)]
-    added[0] = True
-    while len(toAdd) > 0:
-        (prev, cur) = toAdd.pop(0)
-        edgesAdded[cur] = prev
-        # pp.pprint(edgesAdded)
-        # pp.pprint((prev, cur))
-        if cur == 0:
-            for p in scanners[0]:
+    for i in range(len(scanners)):
+        for p in scanners[i]:
+            if i == 0:
                 beacons.add(p)
-        else:
-            for i in range(len(scanners[cur])):
-                newP = adjust(scanners[cur][i], cur, edgesAdded, offsets)
-                scanners[cur][i] = newP
-                beacons.add(newP)
-            # pp.pprint(scanners[cur])
-        for neigh in connected[cur]:
-            if not added[neigh]:
-                added[neigh] = True
-                toAdd.append((cur, neigh))
+            else:
+                beacons.add(adjust(p, i, edgesAdded, offsets))
 
     print("Answer: " + str(len(beacons)))
     f.close()

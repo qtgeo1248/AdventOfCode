@@ -46,7 +46,7 @@ bool is_pid(char *field, size_t n) {
 }
 
 int main() {
-    const char *filename = "passports.txt";
+    const char *filename = "tests/testB1.txt";
     FILE *f = fopen(filename, "r");
     size_t count = 0;
 

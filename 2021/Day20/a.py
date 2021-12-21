@@ -2,7 +2,7 @@ import pprint
 import math
 
 pp = pprint.PrettyPrinter()
-steps = 50
+steps = 2
 # (di, dj)
 dirs = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
 

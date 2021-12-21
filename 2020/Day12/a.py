@@ -18,14 +18,10 @@ def actToDir(act):
         return W
 
 def doAct(coord, d, num):
-    if d == N:
-        coord[1] += num
-    elif d == E:
-        coord[0] += num
-    elif d == S:
-        coord[1] -= num
-    elif d == W:
-        coord[0] -= num
+    if d % 2 == 0:
+        coord[1] += (1 - d) * num
+    else:
+        coord[0] += (2 - d) * num
 
 def main():
     f = open("actions.txt")

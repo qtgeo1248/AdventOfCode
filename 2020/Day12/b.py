@@ -9,14 +9,10 @@ def rotWaypt(waypt, r, numTimes):
     return waypt
 
 def addWaypt(waypt, d, num):
-    if d == 'N':
-        waypt[1] += num
-    elif d == 'E':
-        waypt[0] += num
-    elif d == 'S':
-        waypt[1] -= num
-    elif d == 'W':
-        waypt[0] -= num
+    if d == 'N' or d == 'S':
+        waypt[1] += (int(d == 'N') * 2 - 1) * num
+    elif d == 'E' or d == 'W':
+        waypt[0] += (int(d == 'E') * 2 - 1) * num
 
 def main():
     f = open("actions.txt")

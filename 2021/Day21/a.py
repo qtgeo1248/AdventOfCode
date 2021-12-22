@@ -26,6 +26,7 @@ def main():
         player = not player
 
     print("Answer: " + str(ans))
+    f.close()
 
 if __name__ ==  "__main__":
     main()

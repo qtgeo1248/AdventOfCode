@@ -49,6 +49,7 @@ def main():
     ans = unis[0] if unis[0] > unis[1] else unis[1]
 
     print("Answer: " + str(ans))
+    f.close()
 
 if __name__ ==  "__main__":
     main()

@@ -71,6 +71,7 @@ def main():
         steps.append((toggle, coords))
         for i in range(len(coords)):
             dividers[i].append(coords[i][0])
+            # I am unsure as to why i need to add one here, but whatever
             dividers[i].append(coords[i][1] + 1)
     cubes = getCubes(dividers)
     volume = 0

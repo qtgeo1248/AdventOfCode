@@ -100,23 +100,20 @@ def minCost(board, hallx, initFrogs):
     # frogStates are a bunch of tuples of ((x, y), isDoneMoving, Type)
     paths = PriorityQueue()
     paths.put((0, tuple(initFrogs)))
-    minCost = None
     costs = {} # memoization
     while not paths.empty():
         (cost, state) = paths.get()
-        # Printing to see if my program is actually doing things
-        if minCost is None or cost // 1000 > minCost:
-            minCost = cost // 1000
-            print(minCost * 1000)
         if done(state):
             return cost
-        else:
-            nextStates = getNextSteps(board, hallx, cost, state)
-            for nextState in nextStates:
-                if nextState not in costs.keys() or nextState[0] < costs[nextState]:
-                    paths.put(nextState)
-                    costs[nextState] = nextState[0]
-    return minCost
+        nextStates = getNextSteps(board, hallx, cost, state)
+        for nextState in nextStates:
+            frogs = list(nextState[1])
+            frogs.sort(key = lambda x: (x[2], x[1], x[0]))
+            frogs = tuple(frogs)
+            if frogs not in costs.keys() or nextState[0] < costs[frogs]:
+                paths.put(nextState)
+                costs[frogs] = nextState[0]
+    return None
 
 def main():
     f = open("burrow.txt")

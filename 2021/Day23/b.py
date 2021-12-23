@@ -36,9 +36,9 @@ def possNextHallway(board, hallx, y, takenCoords):
         if (hallx, y - d) in takenCoords:
             goLeft = False
         if goRight and y + d < len(board[hallx]) and board[hallx][y + d] == HALL and board[hallx + 1][y + d] != ROOM:
-            poss.append(y + d)
+            poss.append((hallx, y + d))
         if goLeft and 0 <= y - d and board[hallx][y - d] == HALL and board[hallx + 1][y - d] != ROOM:
-            poss.append(y - d)
+            poss.append((hallx, y - d))
     return poss
 
 # gives possible (x, y) coords in the room next
@@ -86,11 +86,10 @@ def getNextSteps(board, hallx, c, state):
                 possLocs = possNextRoom(board, hallx, y, takenCoords, state[i][2])
             if possLocs is not None:
                 for poss in possLocs:
-                    newC = cost(abs(x - poss[0]) + abs(y - poss[1]) if board[x][y] == HALL else x - hallx + abs(y - poss), state[i][2])
-                    newPoss = poss if board[x][y] == HALL else (hallx, poss)
+                    newC = c + cost(abs(x - poss[0]) + abs(y - poss[1]), state[i][2])
                     newState = list(otherFrogs)
-                    newState.append((newPoss, True if board[x][y] == HALL else state[i][1], state[i][2]))
-                    nextStates.append((c + newC, tuple(newState)))
+                    newState.append((poss, True if board[x][y] == HALL else state[i][1], state[i][2]))
+                    nextStates.append((newC, tuple(newState)))
             takenCoords.add(state[i][0])
             otherFrogs.add(state[i])
     return nextStates

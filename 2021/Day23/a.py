@@ -85,18 +85,18 @@ def getNextSteps(board, hallx, c, state):
             otherFrogs.add(state[i])
     return nextStates
 
-def minCost(board, hallx, initFrogs, tries):
+def minCost(board, hallx, initFrogs):
     # Stores (cost, frogStates)
     # frogStates are a bunch of tuples of ((x, y), isDoneMoving, Type)
     paths = PriorityQueue()
     paths.put((0, tuple(initFrogs)))
     minCost = None
-    t = 0
     costs = {} # memoization
-    while not paths.empty() and t < tries:
+    while not paths.empty():
         (cost, state) = paths.get()
+        # Printing to see if my program is actually doing things
         if minCost is None or cost // 1000 > minCost:
-            print(cost // 1000)
+            print(minCost * 1000)
             minCost = cost // 1000
         if done(state):
             return cost
@@ -132,7 +132,7 @@ def main():
         x += 1
     pp.pprint(initFrogs)
 
-    print("Answer: " + str(minCost(board, hallx, initFrogs, 10000000)))
+    print("Answer: " + str(minCost(board, hallx, initFrogs)))
     f.close()
 
 if __name__ ==  "__main__":

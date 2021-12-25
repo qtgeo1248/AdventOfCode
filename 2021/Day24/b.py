@@ -1,6 +1,4 @@
 import pprint
-import itertools 
-from queue import PriorityQueue
 
 pp = pprint.PrettyPrinter()
 numDigits = 14
@@ -59,13 +57,6 @@ def model(z, inpIdx, numMults, numDivsLeft, instr):
         if nextDigs is not None:
             return str(digit) + nextDigs
     return None
-
-def convert(inp):
-    ans = 0
-    for i in range(len(inp)):
-        ans *= 10
-        ans += inp[i]
-    return ans
 
 def main():
     f = open("instructions.txt")

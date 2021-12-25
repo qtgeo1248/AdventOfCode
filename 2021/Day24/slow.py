@@ -45,6 +45,9 @@ def main():
     for line in f:
         instr.append(line.rstrip().split(" "))
 
+    print(model([7, 9, 1, 9, 7, 9, 1, 9, 9, 9, 3, 9, 8, 5], instr))
+
+    return
     last = 0
     inputs = itertools.product([9, 8, 7, 6, 5, 4, 3, 2, 1], repeat=numDigits)
     for inp in inputs:

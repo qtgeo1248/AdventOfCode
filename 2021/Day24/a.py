@@ -4,50 +4,61 @@ from queue import PriorityQueue
 
 pp = pprint.PrettyPrinter()
 numDigits = 14
+numInstrPerInp = 18
 
-def idx(c):
-    return ord('z') - ord(c)
-
-def model(inp, instr, brain):
-    var = [0, 0, 0] # [z, y, x]
-    i = 0
-    numInstrPerInp = 18
-    for digit in inp:
+# numMults is how many times you multiplied by 26
+# Returns None if no solution at this point in time, and the answer in string
+# form otherwise
+def model(z, inpIdx, numMults, numDivsLeft, instr):
+    if inpIdx == numDigits:
+        return '' if z == 0 else None
+    for digit in range(9): # Tests digits 9 through 0
+        digit = 9 - digit
+        newZ = z
+        newMults = numMults
+        newDivs = numDivsLeft
         # inp w
         # mul x 0
         # add x z
         # mod x 26
-        var[idx('x')] = var[idx('z')] % 26
+        x = newZ % 26
         # div z ___
-        divz = int(instr[numInstrPerInp * i + 4][2])
-        var[idx('z')] //= divz
+        divz = int(instr[numInstrPerInp * inpIdx + 4][2])
+        newZ //= divz
+        if divz == 26:
+            newDivs -= 1
+            newMults -= 1
         # add x ___
-        addx = int(instr[numInstrPerInp * i + 5][2])
-        var[idx('x')] += addx
+        addx = int(instr[numInstrPerInp * inpIdx + 5][2])
+        x += addx
         # eql x w
         # eql x 0
-        var[idx('x')] = int(var[idx('x')] != digit)
+        x = x != digit
+        if x == 1:
+            newMults += 1
+            if newMults > newDivs: # No way for z to become 0
+                continue
         # mul y 0
         # add y 25
         # mul y x
         # add y 1
-        var[idx('y')] = 25 * var[idx('x')] + 1
+        y = 25 * x + 1
         # mul z y
-        var[idx('z')] *= var[idx('y')]
+        newZ *= y
         # mul y 0
         # add y w
         # add y ___
         # mul y x
-        addy = int(instr[numInstrPerInp * i + 15][2])
-        var[idx('y')] = (digit + addy) * var[idx('x')]
+        addy = int(instr[numInstrPerInp * inpIdx + 15][2])
+        y = (digit + addy) * x
         # add z y
-        var[idx('z')] += var[idx('y')]
-        if i >= 5:
-            if var[0] in brain:
-                return False
-            brain.add(var[0])
-        i += 1
-    return var[idx('z')] == 0
+        newZ += y
+
+        # Edits values for next iteration of digits
+        nextDigs = model(newZ, inpIdx + 1, newMults, newDivs, instr)
+        if nextDigs is not None:
+            return str(digit) + nextDigs
+    return None
 
 def convert(inp):
     ans = 0
@@ -63,18 +74,14 @@ def main():
     for line in f:
         instr.append(line.rstrip().split(" "))
 
-    brain = set() # Returns false states
-    last = 0
-    inputs = itertools.product([9, 8, 7, 6, 5, 4, 3, 2, 1], repeat=numDigits)
-    for inp in inputs:
-        if last != inp[9]:
-            last = inp[9]
-            print((convert(inp), len(brain)))
-        if model(inp, instr, brain):
-            print("Answer: " + str(convert(inp)))
-            f.close()
+    numDivz = 0
+    for i in range(numDigits):
+        divz = int(instr[numInstrPerInp * i + 4][2])
+        if divz == 26:
+            numDivz += 1
 
-    print("Answer: ")
+    ans = model(0, 0, 0, numDivz, instr)
+    print("Answer: " + ans)
     f.close()
 
 if __name__ ==  "__main__":

@@ -20,7 +20,7 @@ def getBads(sensor, beacon):
             cur = (sensor[0] + d * dir[0], sensor[1] + (maxD + 1 - d) * dir[1])
             if inRange(cur):
                 poss.add(cur)
-    print(len(poss))
+    # print(len(poss))
     return poss
 
 def isBad(coord, sensors, beacons):
@@ -46,11 +46,11 @@ def main():
     poss = set()
     found = False
     for i in range(len(sensors)):
-        print(i)
+        # print(i)
         poss = getBads(sensors[i], beacons[i])
         for (x, y) in poss:
             if isBad((x, y), sensors, beacons):
-                print((x, y))
+                # print((x, y))
                 print(4000000 * x + y)
                 found = True
                 break

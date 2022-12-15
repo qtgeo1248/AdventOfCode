@@ -39,7 +39,6 @@ def main():
     
     imps = addImps(sensors, beacons)
     imps.sort(key=lambda x: x[0])
-    print(imps)
 
     prevEnd = imps[0][1]
     ans = imps[0][1] - imps[0][0] + 1

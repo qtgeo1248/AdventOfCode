@@ -1,4 +1,4 @@
-import pprint, functools
+import pprint
 
 pp = pprint.PrettyPrinter()
 

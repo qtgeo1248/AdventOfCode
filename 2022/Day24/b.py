@@ -1,7 +1,5 @@
 import pprint, sys
 
-sys.setrecursionlimit(1000000)
-
 pp = pprint.PrettyPrinter()
 
 dirs = [(1, 0), (0, 1), (-1, 0), (0, -1)]

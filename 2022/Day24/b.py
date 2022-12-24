@@ -11,7 +11,6 @@ def outBounds(pos, w, h):
     return pos[0] < 0 or pos[0] >= w or pos[1] < 0 or pos[1] >= h
 
 def canMakeIt(pos, curTrip, maxT, curT, w, h, blizzards, brain):
-    # print(maxT)
     if maxT <= 0:
         return curT if (pos == (w - 1, h) and curTrip % 2 == 0) or (pos == (0, -1) and curTrip == 1) else None
     if pos == (w - 1, h) and curTrip % 2 == 0:

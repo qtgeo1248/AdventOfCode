@@ -1,4 +1,3 @@
-from collections import defaultdict
 import pprint
 
 pp = pprint.PrettyPrinter(width=150)

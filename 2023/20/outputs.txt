@@ -1,0 +1,200 @@
+3769
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+3929
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+4001
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+4027
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+7538
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+7858
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+8002
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+8054
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+11307
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+11787
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+12003
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+12081
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+15076
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+15716
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+16004
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+16108
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+18845
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+19645
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+20005
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+20135
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+22614
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+23574
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+24006
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+24162
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+26383
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+27503
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+28007
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+28189
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+30152
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+31432
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+32008
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+32216
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+33921
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+35361
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+36009
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+36243
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+37690
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+39290
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+40010
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+40270
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+41459
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+43219
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+44011
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+44297
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+45228
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+47148
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+48012
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+48324
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+48997
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+51077
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+52013
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+52351
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+52766
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+55006
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+56014
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+56378
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+56535
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+58935
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+60015
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+60304
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+60405
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+62864
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+64016
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+64073
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+64432
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+66793
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+67842
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+68017
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+68459
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+70722
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+71611
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+72018
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+72486
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+74651
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+75380
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+76019
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+76513
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+78580
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+79149
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+80020
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+80540
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+82509
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+82918
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+84021
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+84567
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+86438
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+86687
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+88022
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+88594
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+90367
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+90456
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+92023
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+92621
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+94225
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+94296
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+96024
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})
+96648
+('bq', 1, {'tx': False, 'kp': False, 'gc': False, 'vg': True})
+97994
+('bq', 1, {'tx': True, 'kp': False, 'gc': False, 'vg': False})
+98225
+('bq', 1, {'tx': False, 'kp': True, 'gc': False, 'vg': False})
+100025
+('bq', 1, {'tx': False, 'kp': False, 'gc': True, 'vg': False})

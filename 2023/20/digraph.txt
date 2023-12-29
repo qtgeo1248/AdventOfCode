@@ -1,0 +1,75 @@
+digraph G {
+    broadcaster[style=filled]
+    qz[style=filled]
+    db[style=filled]
+    lx[style=filled]
+    sd[style=filled]
+    vg[style=filled]
+    tx[style=filled]
+    kp[style=filled]
+    gc[style=filled]
+    bq[style=filled]
+    
+    broadcaster -> vh, sp, lg, mh
+
+    
+    kp -> bq
+    gc -> bq
+    qz -> nd, sj, sk, gp, gc, vh, zt
+    vg -> bq
+    tx -> bq
+    db -> kg, sp, kp, fx, jh, gz
+    lx -> fn, hf, vg, lg
+    sd -> mh, tx, sh, xf, zn, xs
+    bq -> rx
+    
+    vh -> qz, gp
+    sp -> db, jh
+    lg -> zx, lx
+    mh -> xs, sd
+
+    nd -> fs
+    ql -> qz
+    gz -> vv
+    tr -> sd
+    vn -> ql, qz
+    kg -> xz
+    sj -> gs
+    hf -> xm
+    vv -> mq, db
+    gf -> fn, lx
+    zt -> sk
+    bm -> lx, cp
+    cp -> lx, gb
+    gs -> gq, qz
+    bh -> kr, db
+    xb -> qz, vn
+    fx -> qf
+    gq -> qz, xb
+    xp -> zn, sd
+    hl -> tr, sd
+    sk -> nd
+    sh -> pz
+    jh -> kg
+    gp -> zt
+    xf -> xp
+    cv -> sd, hl
+    kr -> db
+    xz -> zs, db
+    fs -> qz, sj
+    xm -> kh, lx
+    qf -> db, gz
+    fn -> bm
+    kh -> lx, gf
+    mq -> bh, db
+    zn -> cv
+    sv -> xf, sd
+    lh -> lx
+    dl -> lh, lx
+    zx -> lx, hf
+    pz -> sd, cn
+    cn -> sd, sv
+    xs -> sh
+    gb -> lx, dl
+    zs -> db, fx
+}

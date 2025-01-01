@@ -1,0 +1,5 @@
+version = 0.27.0
+profile = janestreet
+let-binding-spacing = compact
+indent-after-in = 2
+parens-tuple = always

@@ -35,4 +35,4 @@ let get_answer ((ls, rs) : int list * int list) : int =
     List.iter (incr_table counts false) rs;
     Hashtbl.fold add_result counts 0
 
-let _ = print_endline (get_lists file_name |> get_answer |> string_of_int)
+let _ = get_lists file_name |> get_answer |> string_of_int |> print_endline

@@ -22,4 +22,4 @@ let get_answer (lists : int list * int list) : int =
   let sorted_ls, sorted_rs = pair_map (List.sort Int.compare) lists in
     List.map2 ( - ) sorted_ls sorted_rs |> List.map Int.abs |> List.fold_left ( + ) 0
 
-let _ = print_endline (get_lists file_name |> get_answer |> string_of_int)
+let _ = get_lists file_name |> get_answer |> string_of_int |> print_endline

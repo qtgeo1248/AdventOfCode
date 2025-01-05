@@ -14,13 +14,16 @@ let get_equations file_name =
   in
     In_channel.read_lines file_name |> List.map parse_line
 
-let (|||) x y = int_of_string (String.cat (string_of_int x) (string_of_int y))
+let ( ||| ) x y = int_of_string (String.cat (string_of_int x) (string_of_int y))
 
 let rec is_valid (total, ops) =
   match ops with
   | [] -> true
   | [ res ] -> res = total
-  | x :: y :: res -> is_valid (total, (x + y) :: res) || is_valid (total, (x * y) :: res) || is_valid (total, (x ||| y) :: res)
+  | x :: y :: res ->
+    is_valid (total, (x + y) :: res)
+    || is_valid (total, (x * y) :: res)
+    || is_valid (total, (x ||| y) :: res)
 
 let get_calibration equations =
   List.filter is_valid equations
